@@ -1,7 +1,7 @@
-/*************************************************** 
+/***************************************************
   This is an improved library for the FPM10/R305/ZFM20 optical fingerprint sensor
   Based on the Adafruit R305 library https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
-  
+
   Written by Brian Ejike <brianrho94@gmail.com> (2017)
   Distributed under the terms of the MIT license
  ****************************************************/
@@ -87,7 +87,7 @@ enum {
     BAUD_RATE
 };
 
-// possible values for system parameters that can be set with setPsram() 
+// possible values for system parameters that can be set with setPsram()
 
 //baud rates
 enum baud_vals {
@@ -137,7 +137,7 @@ class FPM {
  public:
   FPM();
   bool begin(Stream *ss, uint32_t password=0, uint32_t address=0xffffffff, uint8_t packetLen=-1);
-  
+
   uint8_t getImage(void);
   uint8_t image2Tz(uint8_t slot = 1);
   uint8_t createModel(void);
@@ -161,12 +161,12 @@ class FPM {
 
   uint16_t fingerID, confidence, templateCount, packetLen, capacity;
 
- private: 
+ private:
   uint8_t buffer[32+12];
   uint32_t thePassword;
   uint32_t theAddress;
   Stream * mySerial;
-  
+
   void writePacket(uint32_t addr, uint8_t packettype, uint16_t len, uint8_t *packet);
   uint16_t getReply(uint8_t * replyBuf=NULL, Stream * outStream = NULL, uint16_t timeout=DEFAULTTIMEOUT);
 };

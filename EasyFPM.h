@@ -8,20 +8,21 @@
 #ifndef EASYFPM_H
 #define EASYFPM_H
 #include<FPM.h>
-#include<arduino.h>
 #include<SoftwareSerial.h>
 
 
 
-class EasyFPM
+class EasyFPM:public FPM
 {
     public:
-        EasyFPM();
-
+        EasyFPM(uint8_t receivePin, uint8_t transmitPin);
+        int SearchPrint();
+        String ErrorMessage;
 
     protected:
-
+       SoftwareSerial mySerial;
     private:
+        int getFingerprintID();
 };
 
 #endif // EASYFPM_H
