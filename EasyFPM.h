@@ -1,6 +1,6 @@
 /***************************************************
   This is an simplified library for the FPM10A sensor
-  Based on the brianrho FPM library https://github.com/brianrho/FPM
+  Based on the brianrho FPM library and examples (https://github.com/brianrho/FPM)
 
   Written by LIN<42040834@qq.com> (2017)
   Distributed under the terms of the MIT license
@@ -17,8 +17,11 @@ class EasyFPM:public FPM
     public:
         EasyFPM();
         int SearchPrint();
-        String ErrorMessage;
+        int GetTemplateCount();
         int Enroll();
+        bool DeletePrint(int id);
+        bool EmptyDB();
+        String ErrorMessage;
 
     protected:
       Stream *softwareSerial;
@@ -26,6 +29,7 @@ class EasyFPM:public FPM
         int getFingerprintID();
         bool get_free_id(int16_t * id);
         int getFingerprintEnroll(int id);
+        int deleteFingerprint(int id);
 
 };
 

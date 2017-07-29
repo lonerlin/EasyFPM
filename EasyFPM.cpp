@@ -1,3 +1,10 @@
+/***************************************************
+  This is an simplified library for the FPM10A sensor
+  Based on the brianrho FPM library and examples (https://github.com/brianrho/FPM)
+
+  Written by LIN<42040834@qq.com> (2017)
+  Distributed under the terms of the MIT license
+ ****************************************************/
 #include <EasyFPM.h>
 #define TEMPLATES_PER_PAGE  256
 
@@ -5,8 +12,62 @@ EasyFPM::EasyFPM():FPM()
 {
 
 }
+//Empty the template database
+bool EasyFPM::EmptyDB()
+{
+    int p = -1;
+
+    p = emptyDatabase();
+    if (p == FINGERPRINT_OK){
+      return true;
+    }
+    else if (p == FINGERPRINT_PACKETRECIEVEERR) {
+      ErrorMessage="Communication error!";
+      //Serial.print("Communication error!");
+      return false;
+    }
+    else if (p == FINGERPRINT_DBCLEARFAIL) {
+      ErrorMessage="Could not clear database!";
+      //Serial.println("Could not clear database!");
+      return false;
+    }
+}
+//Count stored fingerprints
+int EasyFPM::GetTemplateCount()
+{
+    ErrorMessage="";
+    int p = getTemplateCount();
+    if (p == FINGERPRINT_OK){
+    return templateCount;
+    }
+  else if (p == FINGERPRINT_PACKETRECIEVEERR)
+   {
+      ErrorMessage="Communication error!";
+    //Serial.println("Communication error!");
+    return -1;
+   }
+  else
+  {
+      ErrorMessage="Unknown error!";
+      // Serial.println("Unknown error!");
+      return -1;
+  }
 
 
+}
+
+//Delete fingerprint by ID
+bool EasyFPM::DeletePrint(int id)
+{
+    if(deleteFingerprint(id)==FINGERPRINT_OK)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
+}
+//Check whether the input fingerprint matches the template in the database
 int EasyFPM::SearchPrint()
 {
 
@@ -22,10 +83,13 @@ int EasyFPM::SearchPrint()
     }
 
 }
+//Enroll one fingerprint
+//succeed return ID
+// fail return -1 and ErrorMessage record the error message
 int EasyFPM::Enroll()
 {
     int16_t id;
-    ErrorMessage="";
+
   if (get_free_id(&id))
     getFingerprintEnroll(id);
   else
@@ -40,9 +104,36 @@ int EasyFPM::Enroll()
       return -1;
   }
 }
+int EasyFPM::deleteFingerprint(int id)
+ {
+      int p = -1;
+      ErrorMessage="";
+      p = deleteModel(id);
+
+      if (p == FINGERPRINT_OK) {
+        return p;
+      } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
+        ErrorMessage="Communication error";
+        //Serial.println("Communication error");
+        return p;
+      } else if (p == FINGERPRINT_BADLOCATION) {
+        ErrorMessage="Could not delete in that location";
+        //Serial.println("Could not delete in that location");
+        return p;
+      } else if (p == FINGERPRINT_FLASHERR) {
+        ErrorMessage="Error writing to flash";
+        //erial.println("Error writing to flash");
+        return p;
+      } else {
+          ErrorMessage="Unknown error";
+        //Serial.print("Unknown error: 0x"); Serial.println(p, HEX);
+        return p;
+      }
+}
 
 bool EasyFPM:: get_free_id(int16_t * id){
   int p = -1;
+  ErrorMessage="";
   for (int page = 0; page < (capacity / TEMPLATES_PER_PAGE) + 1; page++){
     p = getFreeIndex(page, id);
     switch (p){
@@ -63,7 +154,10 @@ bool EasyFPM:: get_free_id(int16_t * id){
 }
 
 int EasyFPM:: getFingerprintEnroll(int id) {
+
   int p = -1;
+  ErrorMessage="";
+
   Serial.println("Waiting for valid finger to enroll");
   while (p != FINGERPRINT_OK) {
     p = getImage();
@@ -218,6 +312,7 @@ int EasyFPM:: getFingerprintEnroll(int id) {
 
 int EasyFPM:: getFingerprintID() {
   int p = -1;
+  ErrorMessage="";
   //Serial.println("Waiting for a finger...");
   while (p != FINGERPRINT_OK){
     p = getImage();
