@@ -1,0 +1,1 @@
+EasyFPM inherits FPM (https://github.com/brianrho/FPM) and adds several functions that derived from Examples in the FPM library.I want to add several custom Blocks in ArduBlock,this library is designed to make it easy.
