@@ -15,14 +15,18 @@
 class EasyFPM:public FPM
 {
     public:
-        EasyFPM(uint8_t receivePin, uint8_t transmitPin);
+        EasyFPM();
         int SearchPrint();
         String ErrorMessage;
+        int Enroll();
 
     protected:
-       SoftwareSerial mySerial;
+      Stream *softwareSerial;
     private:
         int getFingerprintID();
+        bool get_free_id(int16_t * id);
+        int getFingerprintEnroll(int id);
+
 };
 
 #endif // EASYFPM_H
