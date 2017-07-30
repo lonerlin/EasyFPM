@@ -1,18 +1,18 @@
 
 #include<EasyFPM.h>
-EasyFPM fpm;
+EasyFPM efpm;
 SoftwareSerial mySerial(2, 3);
 void setup() {
-  
+
   Serial.begin(9600);
   Serial.println("fingertest");
   mySerial.begin(57600);
-  fpm.begin(&mySerial);
+  efpm.begin(&mySerial);
 }
 
 void loop() {
- 
- int s=fpm.SearchPrint();
+
+ int s=efpm.SearchPrint();
  Serial.print("returnValue:");
  Serial.println(s);
  if(s>=0)
@@ -22,7 +22,7 @@ void loop() {
  else
  {
     Serial.print("Error");
-    Serial.println(fpm.ErrorMessage); 
+    Serial.println(efpm.ErrorMessage);
  }
 
  delay(1000);

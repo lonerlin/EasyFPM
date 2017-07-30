@@ -1,16 +1,16 @@
 #include<EasyFPM.h>
-EasyFPM fpm;
+EasyFPM efpm;
 SoftwareSerial mySerial(2, 3);
 void setup() {
-  
+
   Serial.begin(9600);
   Serial.println("fingertest");
   mySerial.begin(57600);
-  fpm.begin(&mySerial);
+  efpm.begin(&mySerial);
 }
 
 void loop() {
-  int s=fpm.Enroll();
+  int s=efpm.Enroll();
   if(s>=0)
   {
       Serial.print("Store ID:#");
@@ -18,7 +18,7 @@ void loop() {
    }else
    {
       Serial.print("Error:");
-      Serial.println(fpm.ErrorMessage);
+      Serial.println(efpm.ErrorMessage);
     }
 
 }

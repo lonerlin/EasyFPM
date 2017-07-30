@@ -11,7 +11,7 @@ void setup() {
 
 void loop() {
   if(!deleteState) {
-      if(efpm.emptyDatabase()){
+      if(efpm.EmptyDB()){
           Serial.println("Database Init");
           deleteState=true;
         }else
