@@ -158,7 +158,7 @@ int EasyFPM:: getFingerprintEnroll(int id) {
   int p = -1;
   ErrorMessage="";
 
-  Serial.println("Waiting for valid finger to enroll");
+  //Serial.println("Waiting for valid finger to enroll");
   while (p != FINGERPRINT_OK) {
     p = getImage();
     switch (p) {
@@ -208,7 +208,7 @@ int EasyFPM:: getFingerprintEnroll(int id) {
       return p;
   }
 
-  Serial.println("Remove finger");
+  //Serial.println("Remove finger");
   delay(2000);
   p = 0;
   while (p != FINGERPRINT_NOFINGER) {
@@ -216,7 +216,7 @@ int EasyFPM:: getFingerprintEnroll(int id) {
   }
 
   p = -1;
-  Serial.println("Place same finger again");
+  //Serial.println("Place same finger again");
   while (p != FINGERPRINT_OK) {
     p = getImage();
     switch (p) {
@@ -243,7 +243,7 @@ int EasyFPM:: getFingerprintEnroll(int id) {
   p = image2Tz(2);
   switch (p) {
     case FINGERPRINT_OK:
-      Serial.println("Image converted");
+      //Serial.println("Image converted");
       break;
     case FINGERPRINT_IMAGEMESS:
         ErrorMessage="Image too messy";
@@ -286,10 +286,10 @@ int EasyFPM:: getFingerprintEnroll(int id) {
     return p;
   }
 
-  Serial.print("ID "); Serial.println(id);
+ // Serial.print("ID "); Serial.println(id);
   p = storeModel(id);
   if (p == FINGERPRINT_OK) {
-    Serial.println("Stored!");
+    //Serial.println("Stored!");
     return 0;
   } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
         ErrorMessage="Communication error";
